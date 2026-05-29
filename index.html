@@ -882,17 +882,18 @@
 
     /* ── QR CODE SECTION ── */
     .qr-section {
-      background: var(--surface2); border-radius: 16px;
-      padding: 14px 16px; margin-top: 20px;
-      border: 2px solid var(--border);
+      background: none; border-radius: 10px;
+      padding: 8px 4px; margin-top: 12px;
+      border: none; opacity: .5; transition: opacity .2s;
     }
+    .qr-section:hover { opacity: 1; }
     .qr-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
     }
     .qr-label {
-      font-size: .8rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: .08em; color: var(--soft);
+      font-size: .7rem; font-weight: 600;
+      letter-spacing: .04em; color: var(--soft);
     }
     .btn-qr-edit {
       background: none; border: 1.5px solid var(--border);
@@ -2523,17 +2524,18 @@
 
     /* -- QR CODE SECTION -- */
     .qr-section {
-      background: var(--surface2); border-radius: 16px;
-      padding: 14px 16px; margin-top: 20px;
-      border: 2px solid var(--border);
+      background: none; border-radius: 10px;
+      padding: 8px 4px; margin-top: 12px;
+      border: none; opacity: .5; transition: opacity .2s;
     }
+    .qr-section:hover { opacity: 1; }
     .qr-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
     }
     .qr-label {
-      font-size: .8rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: .08em; color: var(--soft);
+      font-size: .7rem; font-weight: 600;
+      letter-spacing: .04em; color: var(--soft);
     }
     .btn-qr-edit {
       background: none; border: 1.5px solid var(--border);
@@ -3172,8 +3174,8 @@
       if (typeof QRCode !== 'undefined') {
         new QRCode(container, {
           text:   url,
-          width:  100,
-          height: 100,
+          width:  64,
+          height: 64,
           colorDark:  '#1a1a2e',
           colorLight: '#ffffff',
           correctLevel: QRCode.CorrectLevel.M
