@@ -103,6 +103,12 @@
     .pill.learning { background: var(--amber-bg); color: #92400e; }
     .pill.unseen   { background: var(--gray-bg);  color: var(--gray); }
     .student-arrow { font-size: 1.3rem; color: var(--accent); margin-left: 8px; }
+    .btn-customize-inline {
+      background: none; border: none; color: var(--gray);
+      font-size: 1rem; cursor: pointer; padding: 4px 8px;
+      border-radius: 8px; transition: color .2s, background .2s;
+    }
+    .btn-customize-inline:hover { color: var(--accent); background: var(--surface2); }
     .btn-delete {
       background: none; border: none; color: var(--gray);
       font-size: 1.1rem; cursor: pointer; padding: 4px 8px;
@@ -1157,7 +1163,6 @@
         <button class="btn-begin" onclick="showDurationPicker()">▶ Begin Practice</button>
       </div>
     </div>
-    <button class="btn-customize-link" onclick="showCustomize()">✏ Customize icon &amp; color</button>
     <div class="points-section">
       <span class="points-label">🏆 MASTERY GOAL: 520 PTS</span>
       <div class="points-body">
@@ -1562,6 +1567,7 @@
               <span class="pill unseen">◦ ${unseen} unseen</span>
             </div>
           </div>
+          <button class="btn-customize-inline" onclick="event.stopPropagation();state.currentStudentId='${student.id}';showCustomize()">✏</button>
           <span class="student-arrow" onclick="selectStudent('${student.id}')">›</span>
           <button class="btn-delete" onclick="deleteStudent('${student.id}',event)">🗑</button>`;
         ul.appendChild(li);
