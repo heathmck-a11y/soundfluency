@@ -636,6 +636,10 @@
 
 
     /* ── BEGIN PRACTICE button ── */
+    @keyframes beginPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,.4), 0 0 0 0 rgba(255,255,255,.2); transform: scale(1); }
+      50%       { box-shadow: 0 0 0 8px rgba(255,255,255,.1), 0 0 0 16px rgba(255,255,255,.05); transform: scale(1.04); }
+    }
     .btn-begin {
       padding: 13px 22px;
       background: linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.15));
@@ -645,9 +649,10 @@
       cursor: pointer; white-space: nowrap;
       backdrop-filter: blur(4px);
       transition: background .2s, transform .1s;
+      animation: beginPulse 2s ease-in-out infinite;
     }
-    .btn-begin:hover  { background: rgba(255,255,255,.3); }
-    .btn-begin:active { transform: scale(.96); }
+    .btn-begin:hover  { background: rgba(255,255,255,.3); animation: none; transform: scale(1.04); }
+    .btn-begin:active { transform: scale(.96); animation: none; }
 
 
     /* ── Flashy goal display ── */
