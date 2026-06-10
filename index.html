@@ -157,17 +157,18 @@
       border: 2px solid #4e4e80;
     }
     .grid-label { font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); margin-bottom: 10px; }
-    .letter-grid { display: grid; grid-template-columns: repeat(9,1fr); gap: 4px; margin-bottom: 14px; }
+    .letter-grid { display: flex; justify-content: space-between; gap: 0; margin-bottom: 14px; }
     .grid-cell {
-      aspect-ratio: 1; border-radius: 9px; display: flex;
-      align-items: center; justify-content: center;
-      font-size: 1.05rem; font-weight: 900;
-      border: 2px solid transparent; transition: transform .15s; cursor: default;
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      cursor: default; padding: 2px 0;
     }
-    .grid-cell:hover { transform: scale(1.1); }
-    .grid-cell.known    { background: var(--green-bg); color: var(--green-dk); border-color: var(--green); }
-    .grid-cell.learning { background: var(--amber-bg); color: #92400e;         border-color: var(--amber); }
-    .grid-cell.unseen   { background: var(--gray-bg);  color: #d8d8f8;         border-color: var(--border); }
+    .grid-cell .ltr { font-size: .82rem; font-weight: 600; color: #c8c8e8; }
+    .grid-cell .sdot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .grid-cell.known    .sdot { background: var(--green); }
+    .grid-cell.learning .sdot { background: var(--amber); }
+    .grid-cell.unseen   .sdot { background: #4a4a80; }
     .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .78rem; font-weight: 700; color: var(--soft); margin-bottom: 24px; }
     .ldot { width: 11px; height: 11px; border-radius: 4px; display: inline-block; margin-right: 4px; vertical-align: middle; }
     .ldot.known    { background: var(--green); }
@@ -1680,7 +1681,7 @@
         const status = student.scores[l];
         const days   = passedDays(student, l);
         cell.className = `grid-cell ${status}`;
-        cell.textContent = l;
+        cell.innerHTML = `<span class="ltr">${l}</span><span class="sdot"></span>`;
         cell.title = status==='known' ? `${l}: mastered!` : status==='learning' ? `${l}: ${days}/3 days` : `${l}: not yet seen`;
         grid.appendChild(cell);
       });
