@@ -1620,11 +1620,7 @@
         li.innerHTML = `
           <div class="student-left" onclick="selectStudent('${student.id}')">
             <span class="student-name"><span class="student-icon">${student.icon||'⭐'}</span>${escHtml(student.name)}</span>
-            <div class="mini-pills">
-              <span class="pill known">✓ ${known} known</span>
-              <span class="pill learning">~ ${learning} practicing</span>
-              <span class="pill unseen">◦ ${unseen} unseen</span>
-            </div>
+
           </div>
           <button class="btn-customize-inline" onclick="event.stopPropagation();state.currentStudentId='${student.id}';showCustomize()">✏</button>
           <span class="student-arrow" onclick="selectStudent('${student.id}')">›</span>
