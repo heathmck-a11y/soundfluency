@@ -621,6 +621,16 @@
 
     /* ── PIE CHART ── */
     .pie-svg   { width: 88px; height: 88px; transform: rotate(-90deg); flex-shrink: 0; }
+    .res-pie-wrap {
+      display: flex; align-items: center; gap: 16px;
+      background: #3d3d6b; border-radius: 16px;
+      padding: 14px 22px; margin: 4px 0 16px;
+      border: 2px solid #4e4e80; width: 100%; max-width: 320px;
+    }
+    .res-pie-svg { width: 72px; height: 72px; transform: rotate(-90deg); flex-shrink: 0; }
+    .res-pie-label { display: flex; flex-direction: column; gap: 2px; }
+    .res-pie-pct { font-size: 2rem; font-weight: 900; color: #c77dff; line-height: 1; }
+    .res-pie-sub { font-size: .75rem; font-weight: 700; color: var(--soft); text-transform: uppercase; letter-spacing: .06em; }
 
     .points-sub { font-size: .75rem; font-weight: 600; color: var(--soft); }
 
@@ -1452,6 +1462,25 @@
 
       </div>
       <div id="breakdown" class="breakdown"></div>
+
+      <!-- Mastery progress pie -->
+      <div class="res-pie-wrap">
+        <svg class="res-pie-svg" viewBox="0 0 90 90">
+          <defs>
+            <linearGradient id="resPieGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#c77dff"/>
+            </linearGradient>
+          </defs>
+          <circle cx="45" cy="45" r="44" fill="#2a2a3e"/>
+          <path id="res-pie" fill="url(#resPieGrad)" d="M45,45 L45,1"/>
+        </svg>
+        <div class="res-pie-label">
+          <span id="res-pie-pct" class="res-pie-pct">0%</span>
+          <span class="res-pie-sub">to full mastery</span>
+        </div>
+      </div>
+
       <div class="res-actions">
         <button class="btn-primary"   onclick="startSession()">Practice Again</button>
         <button class="btn-secondary" onclick="showDashboard()">View Progress</button>
@@ -3099,6 +3128,30 @@
 
       // Points celebration
       const ptsNow = student ? calcPoints(student) : 0;
+
+      // Draw results pie
+      (() => {
+        const ratio = Math.min(1, ptsNow / MAX_POINTS);
+        const cx=45, cy=45, r=44;
+        const angle = ratio * 2 * Math.PI;
+        const x = cx + r * Math.sin(angle), y = cy - r * Math.cos(angle);
+        const largeArc = angle > Math.PI ? 1 : 0;
+        const d = ratio >= 1
+          ? `M${cx},${cy} m-${r},0 a${r},${r} 0 1,1 ${r*2},0 a${r},${r} 0 1,1 -${r*2},0`
+          : ratio <= 0 ? `M${cx},${cy}`
+          : `M${cx},${cy} L${cx},${cy-r} A${r},${r} 0 ${largeArc},1 ${x},${y} Z`;
+        document.getElementById('res-pie').setAttribute('d', d);
+        document.getElementById('res-pie-pct').textContent = Math.round(ratio * 100) + '%';
+        // Tint pie gradient to student colour
+        if (student) {
+          const g = document.getElementById('resPieGrad');
+          if (g) {
+            g.querySelector('stop:first-child').setAttribute('stop-color', student.color || '#7c3aed');
+            g.querySelector('stop:last-child').setAttribute('stop-color', shiftColor(student.color || '#7c3aed', 40));
+          }
+        }
+      })();
+
       const ptsEl = document.getElementById('res-pts-earned');
       ptsEl.textContent = ptsEarned;
       ptsEl.classList.toggle('has-points', ptsEarned > 0);
