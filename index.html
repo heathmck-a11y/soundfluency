@@ -130,11 +130,11 @@
     .dash-topbar .btn-back { border-color: rgba(255,255,255,.3); color: #fff; }
     .dash-topbar .btn-back:hover { border-color: #fff; }
     .points-section {
-      background: var(--surface2);
+      background: #3d3d6b;
       border-radius: 20px;
       padding: 16px 20px 20px; margin-bottom: 22px;
       box-shadow: 0 4px 24px rgba(0,0,0,.3);
-      border: 2px solid var(--border);
+      border: 2px solid #4e4e80;
       display: flex; flex-direction: column; gap: 14px;
     }
     .points-body {
@@ -150,6 +150,11 @@
       height: 100%; border-radius: 100px;
       background: linear-gradient(90deg, var(--accent), var(--green));
       transition: width .5s ease;
+    }
+    .letter-status-card {
+      background: #3d3d6b; border-radius: 16px;
+      padding: 14px 16px; margin-bottom: 20px;
+      border: 2px solid #4e4e80;
     }
     .grid-label { font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); margin-bottom: 10px; }
     .letter-grid { display: grid; grid-template-columns: repeat(9,1fr); gap: 4px; margin-bottom: 14px; }
@@ -399,9 +404,9 @@
 
     /* ── DAILY STREAK ── */
     .streak-section {
-      background: var(--surface2); border-radius: 16px;
+      background: #3d3d6b; border-radius: 16px;
       padding: 14px 16px; margin-bottom: 20px;
-      border: 2px solid var(--border);
+      border: 2px solid #4e4e80;
     }
     .streak-header {
       display: flex; align-items: baseline; justify-content: space-between;
@@ -1187,12 +1192,14 @@
     </div>
 
 
-    <div class="grid-label">Letter Status</div>
-    <div id="letter-grid" class="letter-grid"></div>
-    <div class="legend">
-      <span><span class="ldot known"></span>Known (3-in-a-row, 3 days)</span>
-      <span><span class="ldot learning"></span>Practicing</span>
-      <span><span class="ldot unseen"></span>Not yet seen</span>
+    <div class="letter-status-card">
+      <div class="grid-label">Letter Status</div>
+      <div id="letter-grid" class="letter-grid"></div>
+      <div class="legend">
+        <span><span class="ldot known"></span>Known (3-in-a-row, 3 days)</span>
+        <span><span class="ldot learning"></span>Practicing</span>
+        <span><span class="ldot unseen"></span>Not yet seen</span>
+      </div>
     </div>
     <!-- Teacher observations -->
     <div class="notes-section">
