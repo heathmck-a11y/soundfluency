@@ -432,37 +432,58 @@
     /* ── POINTS CELEBRATION on results screen ── */
     .points-celebration {
       display: flex; flex-direction: column; align-items: center;
-      gap: 4px; margin: 8px 0 20px;
+      gap: 6px; margin: 10px 0 22px;
+      background: radial-gradient(ellipse at center, rgba(155,93,229,.18) 0%, transparent 70%);
+      border-radius: 24px; padding: 18px 24px 22px;
+      position: relative; overflow: hidden;
     }
     .pts-earned-label {
-      font-size: .8rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: .1em; color: var(--soft);
+      font-size: .85rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .12em; color: var(--soft);
     }
     .pts-earned-number {
-      font-size: 5rem; font-weight: 900; line-height: 1;
-      color: var(--accent);
-      background: linear-gradient(135deg, var(--accent), var(--green));
+      font-size: 8rem; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, #c77dff, #22c55e);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      animation: popIn .5s cubic-bezier(.175,.885,.32,1.275) both;
+      animation: popIn .55s cubic-bezier(.175,.885,.32,1.275) both;
+      filter: drop-shadow(0 0 18px rgba(155,93,229,.5));
+    }
+    .pts-earned-number.has-points {
+      animation: popIn .55s cubic-bezier(.175,.885,.32,1.275) both,
+                 ptsPulse 1.2s ease .6s 2;
+    }
+    @keyframes ptsPulse {
+      0%,100% { filter: drop-shadow(0 0 18px rgba(155,93,229,.5)); }
+      50%      { filter: drop-shadow(0 0 36px rgba(155,93,229,.9)); }
     }
     .pts-earned-unit {
-      font-size: 1.1rem; font-weight: 800; color: var(--soft);
-      margin-top: -4px;
+      font-size: 1.2rem; font-weight: 800; color: #c77dff;
+      margin-top: -6px;
     }
     .pts-total-row {
       font-size: .85rem; font-weight: 700; color: var(--soft);
-      margin-top: 2px;
+      margin-top: 4px;
     }
     .pts-total-row strong { color: var(--accent); }
-    .pts-bar-wrap { display: none; } /* replaced by pie on results */
+    .pts-bar-wrap { display: none; }
     @keyframes popIn {
-      0%   { transform: scale(0.4); opacity: 0; }
-      70%  { transform: scale(1.08); }
+      0%   { transform: scale(0.3); opacity: 0; }
+      65%  { transform: scale(1.12); }
       100% { transform: scale(1);   opacity: 1; }
     }
     .confetti-row {
-      font-size: 1.6rem; letter-spacing: .15em; margin-bottom: 4px;
+      font-size: 2.2rem; letter-spacing: .2em; margin-bottom: 4px;
       animation: popIn .4s ease both;
+    }
+    /* Confetti particles */
+    .confetti-piece {
+      position: absolute; width: 8px; height: 8px; border-radius: 2px;
+      animation: confettiFall linear forwards;
+      pointer-events: none;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(-10px) rotate(0deg);   opacity: 1; }
+      100% { transform: translateY(160px) rotate(720deg); opacity: 0; }
     }
 
     .btn-finish {
@@ -3078,16 +3099,39 @@
 
       // Points celebration
       const ptsNow = student ? calcPoints(student) : 0;
-      document.getElementById('res-pts-earned').textContent = ptsEarned;
+      const ptsEl = document.getElementById('res-pts-earned');
+      ptsEl.textContent = ptsEarned;
+      ptsEl.classList.toggle('has-points', ptsEarned > 0);
       document.getElementById('res-pts-total').innerHTML =
         `Total: <strong>${ptsNow} / ${MAX_POINTS} pts</strong> - ${Math.round((ptsNow/MAX_POINTS)*100)}% to full mastery`;
 
       // Swap confetti/emoji based on points earned
       const confettiEl = document.getElementById('res-confetti');
-      if (ptsEarned >= 20)     confettiEl.textContent = '🎉 🏆 🎉';
-      else if (ptsEarned >= 10) confettiEl.textContent = '🌟 🌟 🌟';
+      if (ptsEarned >= 20)      confettiEl.textContent = '🎉 🏆 🎉';
+      else if (ptsEarned >= 10) confettiEl.textContent = '🌟 🏅 🌟';
       else if (ptsEarned > 0)   confettiEl.textContent = '⭐ ⭐ ⭐';
       else                      confettiEl.textContent = '💪 💪 💪';
+
+      // Confetti burst when points earned
+      if (ptsEarned > 0) {
+        const cel = document.querySelector('.points-celebration');
+        const colors = ['#9b5de5','#c77dff','#22c55e','#fbbf24','#f472b6','#60a5fa'];
+        for (let i = 0; i < 28; i++) {
+          const p = document.createElement('div');
+          p.className = 'confetti-piece';
+          p.style.cssText = `
+            left:${10 + Math.random()*80}%;
+            top:${Math.random()*20}%;
+            background:${colors[Math.floor(Math.random()*colors.length)]};
+            width:${6+Math.random()*6}px; height:${6+Math.random()*6}px;
+            border-radius:${Math.random()>.5?'50%':'2px'};
+            animation-duration:${0.8+Math.random()*1}s;
+            animation-delay:${Math.random()*0.4}s;
+          `;
+          cel.appendChild(p);
+          p.addEventListener('animationend', () => p.remove());
+        }
+      }
 
       const corrArr  = [...sess.correctLetters];
       const wrnArr   = [...sess.wrongLetters].filter(l => !sess.correctLetters.has(l));
