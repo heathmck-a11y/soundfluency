@@ -809,6 +809,7 @@
       letter-spacing: .04em;
     }
     .btn-settings:hover { background: rgba(255,255,255,.25); }
+    .btn-info { padding: 8px 14px; font-size: 1rem; }
 
     /* ── SETTINGS SCREEN ── */
     .settings-topbar {
@@ -1155,7 +1156,10 @@
 </svg></div>
       <h1 class="app-title">Letter Sounds</h1>
       <p class="app-tagline">Fluency Tracker</p>
-      <button class="btn-settings" onclick="showSettings()" title="Customize letter sets">⚙ Letter Sets</button>
+      <div style="display:flex;gap:8px;justify-content:center;align-items:center;">
+        <button class="btn-settings" onclick="showSettings()" title="Customize letter sets">⚙ Letter Sets</button>
+        <button class="btn-settings btn-info" onclick="showInfo()" title="How this app works">ⓘ</button>
+      </div>
     </header>
     <section>
       <div class="home-section-row">
@@ -3321,6 +3325,50 @@
     loadState();
     renderQrCode();
     showHome();
+
+    function showInfo() {
+      document.getElementById('info-modal').style.display = 'flex';
+    }
+    function hideInfo() {
+      document.getElementById('info-modal').style.display = 'none';
+    }
+    document.getElementById('info-modal').addEventListener('click', function(e) {
+      if (e.target === this) hideInfo();
+    });
   </script>
+
+  <!-- Info modal -->
+  <div id="info-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:#1e1e3a;border:2px solid #4e4e80;border-radius:20px;max-width:480px;width:100%;padding:28px 24px;position:relative;max-height:90vh;overflow-y:auto;">
+      <button onclick="hideInfo()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#9090b8;font-size:1.4rem;cursor:pointer;line-height:1;">✕</button>
+      <h2 style="font-family:'Teachers',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;margin:0 0 16px;">How Letter Sounds Works</h2>
+
+      <p style="font-family:'Teachers',sans-serif;font-size:.9rem;color:#c8c8e8;line-height:1.6;margin:0 0 14px;">
+        <strong style="color:#fff;">Letter Sounds</strong> is a fluency tracker for K–2 students learning letter-sound correspondences. It uses spaced practice across days to build lasting memory.
+      </p>
+
+      <h3 style="font-family:'Teachers',sans-serif;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9b6dff;margin:0 0 8px;">How a session works</h3>
+      <p style="font-family:'Teachers',sans-serif;font-size:.9rem;color:#c8c8e8;line-height:1.6;margin:0 0 14px;">
+        Each session shows a student a set of letters on flashcards. Tap <strong style="color:#fff;">✓ Correct</strong> if they say the sound right, <strong style="color:#fff;">✗ Wrong</strong> if they miss it, or <strong style="color:#fff;">Provided</strong> if you had to give them the answer. Missed letters come back again in the same session.
+      </p>
+
+      <h3 style="font-family:'Teachers',sans-serif;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9b6dff;margin:0 0 8px;">How letters become "known"</h3>
+      <p style="font-family:'Teachers',sans-serif;font-size:.9rem;color:#c8c8e8;line-height:1.6;margin:0 0 14px;">
+        A letter moves from <em>Practicing</em> to <em>Known</em> when a student passes it (gets it right in a session) on <strong style="color:#fff;">3 separate days</strong>. This spacing across days builds more durable memory than drilling it all at once.
+      </p>
+
+      <h3 style="font-family:'Teachers',sans-serif;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9b6dff;margin:0 0 8px;">Letter sets</h3>
+      <p style="font-family:'Teachers',sans-serif;font-size:.9rem;color:#c8c8e8;line-height:1.6;margin:0 0 14px;">
+        Letters are introduced in sets of 6. Students work on their current set until letters are mastered, then new letters are introduced. You can customize the order to match your school's scope &amp; sequence using the <strong style="color:#fff;">⚙ Letter Sets</strong> button.
+      </p>
+
+      <h3 style="font-family:'Teachers',sans-serif;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9b6dff;margin:0 0 8px;">Points &amp; the goal</h3>
+      <p style="font-family:'Teachers',sans-serif;font-size:.9rem;color:#c8c8e8;line-height:1.6;margin:0 0 4px;">
+        Students earn points each day they pass a letter. The goal of <strong style="color:#fff;">520 points</strong> means they've mastered all 26 letters across 3 days each — full alphabet fluency.
+      </p>
+
+      <button onclick="hideInfo()" style="margin-top:20px;width:100%;padding:12px;background:#7c3aed;border:none;border-radius:12px;color:#fff;font-family:'Teachers',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;">Got it</button>
+    </div>
+  </div>
 </body>
 </html>
